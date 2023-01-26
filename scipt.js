@@ -16,7 +16,6 @@ document.getElementById("1").classList.toggle("selected")
 function right() {
   document.querySelector("p").style.color = "green";
   document.querySelector("p").innerHTML = "korrekt! :)";
-  party.confetti(document.querySelector("ul"));
 };
 
 function wrong() {
