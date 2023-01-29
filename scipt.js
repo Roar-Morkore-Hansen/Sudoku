@@ -156,7 +156,7 @@ function checkKey(event) {
     insert("")
   } else if (event.key == "ArrowUp" && selected_id > 9) {
     selectedfunction(selected_id - 9)
-  } else if (event.key == "ArrowDown" && selected_id <= 72) {
+  } else if (event.key == "ArrowDown" && selected_id < 73) {
     selectedfunction(selected_id + 9)
   } else if (event.key == "ArrowLeft" && selected_id > 1 && [10,19,28,37,46,55,64,73].includes(selected_id) == false) {
     selectedfunction(selected_id - 1)
