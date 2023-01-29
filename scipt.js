@@ -1,9 +1,13 @@
 
+// Rectangel grid x^2
+
+const gridSize = 9
+
 // Create 81 square grid and select the first tile 
 let list = document.getElementById("girdList")
 
 // Create grid
-for (var i = 1; i <= 81; i++) {
+for (var i = 1; i <= gridSize*gridSize; i++) {
   let li = document.createElement("li");
   li.classList.add("cell")
   li.setAttribute("id", i)
@@ -130,28 +134,29 @@ fetchData()
 fullGrid()
 
 
-
-function selectedfunction(id){
-  var cellNew = id;
-  var cellPrev = document.querySelector(".selected").id;
-  document.getElementById(cellPrev).classList.toggle("selected");
-  document.getElementById(cellNew).classList.toggle("selected");
+// Select tile with id
+function select(id){
+  var cell_new = id;
+  var cell_prev = document.querySelector(".selected").id;
+  document.getElementById(cell_prev).classList.toggle("selected");
+  document.getElementById(cell_new).classList.toggle("selected");
 };
 
+// Insert sting to tile
 function insert(str) {
   document.querySelector(".selected").innerHTML = str;
   document.querySelector("p").innerHTML = "";
   fullGrid();
 }
 
-//ta mus verur tryst
+// Select tile that mouse clicks on
 document.querySelectorAll(".su_cell").forEach(item => {
   item.addEventListener("click", event => {
-    selectedfunction(event.target.id)
+    select(event.target.id)
   })
 });
 
-//ta knottur verur trystur
+// When key is pressed
 document.onkeydown = checkKey;
 
 function checkKey(event) {
@@ -165,13 +170,13 @@ function checkKey(event) {
   } else if (event.key == "Backspace" && selected_element.className.split(" ").includes("fast") == false){
     insert("")
   } else if (event.key == "ArrowUp" && selected_id > 9) {
-    selectedfunction(selected_id - 9)
+    select(selected_id - 9)
   } else if (event.key == "ArrowDown" && selected_id <= 72) {
-    selectedfunction(selected_id + 9)
+    select(selected_id + 9)
   } else if (event.key == "ArrowLeft" && selected_id > 1 && [10,19,28,37,46,55,64,73].includes(selected_id) == false) {
-    selectedfunction(selected_id - 1)
+    select(selected_id - 1)
   } else if (event.key == "ArrowRight" && selected_id < 81 && [9,18,27,36,45,54,63,72,81].includes(selected_id) == false) {
-    selectedfunction(selected_id + 1)
+    select(selected_id + 1)
   }
 };
 
