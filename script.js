@@ -160,22 +160,21 @@ document.querySelectorAll(".su_cell").forEach(item => {
 document.onkeydown = checkKey;
 
 function checkKey(event) {
-  //console.log(event);
 
   var selected_element = document.querySelector(".selected");
   var selected_id = parseInt(selected_element.id);
 
-  if (["0","1","2","3","4","5","6","7","8","9"].includes(event.key) == true && selected_element.className.split(" ").includes("fast") == false){
+  if (["1","2","3","4","5","6","7","8","9"].includes(event.key) == true && selected_element.className.split(" ").includes("fast") == false){
     insert(event.key)
   } else if (event.key == "Backspace" && selected_element.className.split(" ").includes("fast") == false){
     insert("")
   } else if (event.key == "ArrowUp" && selected_id > 9) {
     select(selected_id - 9)
-  } else if (event.key == "ArrowDown" && selected_id <= 72) {
+  } else if (event.key == "ArrowDown" && selected_id < 73) {
     select(selected_id + 9)
-  } else if (event.key == "ArrowLeft" && selected_id > 1 && [10,19,28,37,46,55,64,73].includes(selected_id) == false) {
+  } else if (event.key == "ArrowLeft" && selected_id > 1 && (selected_id % 9) !== 1) {
     select(selected_id - 1)
-  } else if (event.key == "ArrowRight" && selected_id < 81 && [9,18,27,36,45,54,63,72,81].includes(selected_id) == false) {
+  } else if (event.key == "ArrowRight" && selected_id < 81 && (selected_id % 9) !== 0) {
     select(selected_id + 1)
   }
 };
