@@ -165,7 +165,7 @@ function checkKey(event) {
   var selected_element = document.querySelector(".selected");
   var selected_id = parseInt(selected_element.id);
 
-  if (["1","2","3","4","5","6","7","8","9"].includes(event.key) == true && selected_element.className.split(" ").includes("fast") == false){
+  if (["0","1","2","3","4","5","6","7","8","9"].includes(event.key) == true && selected_element.className.split(" ").includes("fast") == false){
     insert(event.key)
   } else if (event.key == "Backspace" && selected_element.className.split(" ").includes("fast") == false){
     insert("")
