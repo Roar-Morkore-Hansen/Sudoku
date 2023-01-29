@@ -38,7 +38,11 @@ function tjekk(arr){
   return "correct"
 };
 
+
+
+
 function grid_tjekk() {
+  //BRUKA MOD
   //tjekka um loddrættrað er rætt
   for (var v = 1; v < 10; v++) {
     var num_arr = [];
@@ -85,8 +89,10 @@ function grid_tjekk() {
   right()
 };
 
+
+//Check if grid is full. 
 function fullGrid() {
-  for (var i = 1; i < 82; i++) {
+  for (var i = 1; i <= 81; i++) {
     if (document.getElementById(i).textContent == "") {
       break
     } else if (i == 81) {
@@ -95,17 +101,19 @@ function fullGrid() {
   }
 }
 
-function fetchdata() {
+
+//Fetch Data from text file  
+function fetchData() {
   fetch('sudoku_data.txt')
     .then(response => response.text())
     .then(data => {
-      var data_arr = data.split(",");
-      fillgrid(data_arr[Math.floor(Math.random() * data_arr.length)]);
+      var dataArray = data.split(",");
+      fillGrid(dataArray[Math.floor(Math.random() * dataArray.length)]);
     })
 };
 
 //setur data inn í krossskiptan
-function fillgrid(sudoku_array) {
+function fillGrid(sudoku_array) {
   for (var i = 0; i < document.querySelectorAll(".su_cell").length; i++) {
     var cell = document.getElementById(i+1)
     if (sudoku_array[i] == "0") {
@@ -117,17 +125,17 @@ function fillgrid(sudoku_array) {
   }
 };
 
-fetchdata()
-//fillgrid("679518243543729618821634957794352186358461729216897534485276391962183475137945860");
+fetchData()
+//fillGrid("679518243543729618821634957794352186358461729216897534485276391962183475137945860");
 fullGrid()
 
 
 
 function selectedfunction(id){
-  var cell_new = id;
-  var cell_prev = document.querySelector(".selected").id;
-  document.getElementById(cell_prev).classList.toggle("selected");
-  document.getElementById(cell_new).classList.toggle("selected");
+  var cellNew = id;
+  var cellPrev = document.querySelector(".selected").id;
+  document.getElementById(cellPrev).classList.toggle("selected");
+  document.getElementById(cellNew).classList.toggle("selected");
 };
 
 function insert(str) {
