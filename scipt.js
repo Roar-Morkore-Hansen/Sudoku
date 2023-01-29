@@ -1,28 +1,29 @@
 
-//create 81 square grid with the first tile as selected
+// Create 81 square grid and select the first tile 
 let list = document.getElementById("girdList")
 
-for (var i = 1; i < 82; i++) {
-    let li = document.createElement("li");
-    li.classList.add("su_cell")
-    li.setAttribute("id", i)
-    list.appendChild(li);
+// Create grid
+for (var i = 1; i <= 81; i++) {
+  let li = document.createElement("li");
+  li.classList.add("cell")
+  li.setAttribute("id", i)
+  list.appendChild(li)
 }
 
+// Initial selected tile
 document.getElementById("1").classList.toggle("selected")
 
 
+// Pass or fail
 
 function right() {
-  document.querySelector("p").style.color = "green";
-  document.querySelector("p").innerHTML = "korrekt! :)";
-  party.confetti(document.querySelector("ul"));
+  document.getElementById("passOrFail").style.color = "green";
+  document.getElementById("passOrFail").innerHTML = "korrekt! :)";
 };
 
 function wrong() {
-  console.log("rang")
-  document.querySelector("p").style.color = "red";
-  document.querySelector("p").innerHTML = "skeift! :P";
+  document.getElementById("passOrFail").style.color = "red";
+  document.getElementById("passOrFail").innerHTML = "skeift! :P";
 };
 
 correct_array = ["1","2","3","4","5","6","7","8","9"];
@@ -84,7 +85,7 @@ function grid_tjekk() {
   right()
 };
 
-function x_tjekk() {
+function fullGrid() {
   for (var i = 1; i < 82; i++) {
     if (document.getElementById(i).textContent == "") {
       break
@@ -118,7 +119,7 @@ function fillgrid(sudoku_array) {
 
 fetchdata()
 //fillgrid("679518243543729618821634957794352186358461729216897534485276391962183475137945860");
-x_tjekk()
+fullGrid()
 
 
 
@@ -132,7 +133,7 @@ function selectedfunction(id){
 function insert(str) {
   document.querySelector(".selected").innerHTML = str;
   document.querySelector("p").innerHTML = "";
-  x_tjekk();
+  fullGrid();
 }
 
 //ta mus verur tryst
