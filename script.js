@@ -1,13 +1,14 @@
 
 // Rectangel grid x^2
 
-const gridSize = 9
+const grid_width = 9
+const grid_size = grid_width*grid_width
 
 // Create 81 square grid and select the first tile 
 let list = document.getElementById("girdList")
 
 // Create grid
-for (var i = 1; i <= gridSize*gridSize; i++) {
+for (var i = 1; i <= grid_size; i++) {
   let li = document.createElement("li");
   li.classList.add("cell")
   li.setAttribute("id", i)
@@ -28,7 +29,7 @@ function right() {
 function wrong() {
   document.getElementById("passOrFail").style.color = "red";
   document.getElementById("passOrFail").innerHTML = "skeift! :P";
-};
+}
 
 correct_array = ["1","2","3","4","5","6","7","8","9"];
 
@@ -40,46 +41,46 @@ function tjekk(arr){
     }
   }
   return "correct"
-};
+}
 
 
 
 
-function grid_tjekk() {
-  //BRUKA MOD
-  //tjekka um loddrættrað er rætt
-  for (var v = 1; v < 10; v++) {
+function grid_check() {
+  // Check if all rows have no repeates
+  for (var row = 1; row <= 9; row++) {
     var num_arr = [];
-    for (var l = 0; l < 9; l++) {
-      var id_num = v + (9 * l)
+    for (var collumn = 0; collumn <= 8; collumn++) {
+      var id_num = row + (9 * collumn)
       num_arr.push(document.getElementById(id_num).textContent)
     }
     if (tjekk(num_arr) == "wrong") {
       wrong()
       return
-    };
-  };
-  //tjekka um vatnrættrað er rætt
-  for (var l = 0; l < 9; l++) {
+    }
+  }
+  // Check if all collumns have no repeates
+  for (var collumn = 0; collumn <= 8; collumn++) {
     var num_arr = []
-    for (var v = 1; v < 10; v++) {
-      id_num = v + (9 * l)
+    for (var row = 1; row <= 9; row++) {
+      id_num = row + (9 * collumn)
       num_arr.push(document.getElementById(id_num).textContent)
     }
     if (tjekk(num_arr) == "wrong") {
       wrong()
       return
-    };
-  };
-  //tjekka um boks er rætt
-  for (var y = 0; y < 3; y++) {
-    for (var i = 0; i < 3; i++) {
+    }
+  }
+  // Check if all boxes have no repeates
+  for (var box_y_offset = 0; box_y_offset <= 2; box_y_offset++) { //box_y_offset
+    for (var box_x_offset = 0; box_x_offset <= 2; box_x_offset++) { //box_x_offset
       var num_arr = []
-      for (var x = 0; x < 3; x++) {
-        for (var t = 1; t < 4; t++) {
-          var id_num = (t + (9 * x) + (3 * i + (27 * y)))
+      for (var row = 0; row <= 2; row++) { //row
+        for (var collumn = 1; collumn <= 3; collumn++) {//collumn
+          var id_num = (collumn + (9 * row) + (3 * box_x_offset + (27 * box_y_offset)))
           num_arr.push(document.getElementById(id_num).textContent)
-          //console.log(`${id_num} = ${t} + (3 * ${i} + 27 * ${y}) + (9 * ${x})`)
+          //console.log(`${id_num} = ${collumn} + (3 * ${box_x_offset} + 27 * ${box_y_offset}) + (9 * ${row})`)
+          //console.log(`box coordinate: (${box_x_offset}, ${box_y_offset}) - coordinate (${collumn}, ${row})`)
           //console.log(document.getElementById(id_num).textContent)
         }
       }
@@ -88,37 +89,35 @@ function grid_tjekk() {
         return
       }
     }
-  };
-  //console.log(boks_arr,vandret_arr,loddret_arr)
+  }
   right()
-};
+}
 
 
 //Check if grid is full. 
-function fullGrid() {
+function full_grid() {
   for (var i = 1; i <= 81; i++) {
     if (document.getElementById(i).textContent == "") {
       break
     } else if (i == 81) {
-      grid_tjekk();
+      grid_check();
     }
   }
 }
 
-
-//Fetch Data from text file  
-function fetchData() {
+// Fetch Data from text file  
+function fetch_data() {
   fetch('sudoku_data.txt')
     .then(response => response.text())
     .then(data => {
       var dataArray = data.split(",");
-      fillGrid(dataArray[Math.floor(Math.random() * dataArray.length)]);
+      fill_grid(dataArray[Math.floor(Math.random() * dataArray.length)]);
     })
-};
+}
 
-//setur data inn í krossskiptan
-function fillGrid(sudoku_array) {
-  for (var i = 0; i < document.querySelectorAll(".su_cell").length; i++) {
+// setur data inn í krossskiptan
+function fill_grid(sudoku_array) {
+  for (var i = 0; i < document.querySelectorAll(".cell").length; i++) {
     var cell = document.getElementById(i+1)
     if (sudoku_array[i] == "0") {
       cell.innerHTML = "";
@@ -129,9 +128,9 @@ function fillGrid(sudoku_array) {
   }
 };
 
-fetchData()
-//fillGrid("679518243543729618821634957794352186358461729216897534485276391962183475137945860");
-fullGrid()
+//fetch_data()
+fill_grid("079518243543729618821634957794352186358461729216897534485276391962183475137945862");
+full_grid()
 
 
 // Select tile with id
@@ -146,7 +145,7 @@ function select(id){
 function insert(str) {
   document.querySelector(".selected").innerHTML = str;
   document.querySelector("p").innerHTML = "";
-  fullGrid();
+  full_grid();
 }
 
 // Select tile that mouse clicks on
