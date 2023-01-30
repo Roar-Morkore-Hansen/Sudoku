@@ -1,3 +1,19 @@
+
+// Create 81 square grid and select the first tile 
+
+let list = document.getElementById("girdList")
+
+// Create grid
+for (var i = 1; i <= 81; i++) {
+  let li = document.createElement("li");
+  li.classList.add("cell")
+  li.setAttribute("id", i)
+  list.appendChild(li)
+}
+
+// Initial selected tile
+document.getElementById("1").classList.toggle("selected")
+
 // Fetch Data from text file and fill grid with a random template
 function fetch_data() {
   fetch('sudoku_data.txt')
@@ -147,24 +163,7 @@ document.onkeydown = function checkKey(event) {
     }
 };
 
-
-// Create 81 square grid and select the first tile 
-
-const grid_width = 9
-const grid_size = grid_width*grid_width
-
-let list = document.getElementById("girdList")
-
-// Create grid
-for (var i = 1; i <= grid_size; i++) {
-  let li = document.createElement("li");
-  li.classList.add("cell")
-  li.setAttribute("id", i)
-  list.appendChild(li)
-}
-
-// Initial selected tile
-document.getElementById("1").classList.toggle("selected")
+// DRIVER CODE
 
 fetch_data()
 //fill_grid("079518243543729618821634957794352186358461729216897534485276391962183475137945862");
