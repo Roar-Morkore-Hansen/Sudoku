@@ -1,23 +1,25 @@
-
-// Rectangel grid x^2
-
-const grid_width = 9
-const grid_size = grid_width*grid_width
-
-// Create 81 square grid and select the first tile 
-let list = document.getElementById("girdList")
-
-// Create grid
-for (var i = 1; i <= grid_size; i++) {
-  let li = document.createElement("li");
-  li.classList.add("cell")
-  li.setAttribute("id", i)
-  list.appendChild(li)
+// Fetch Data from text file  
+function fetch_data() {
+  fetch('sudoku_data.txt')
+    .then(response => response.text())
+    .then(data => {
+      var dataArray = data.split(",");
+      fill_grid(dataArray[Math.floor(Math.random() * dataArray.length)]);
+    })
 }
 
-// Initial selected tile
-document.getElementById("1").classList.toggle("selected")
-
+// Fill data into grid
+function fill_grid(sudoku_array) {
+  for (var i = 0; i < document.querySelectorAll(".cell").length; i++) {
+    var cell = document.getElementById(i+1)
+    if (sudoku_array[i] == "0") {
+      cell.innerHTML = "";
+    } else {
+      cell.innerHTML = sudoku_array[i];
+      cell.classList.add("fast");
+    }
+  }
+};
 
 // Pass or fail
 
@@ -31,21 +33,19 @@ function wrong() {
   document.getElementById("passOrFail").innerHTML = "skeift! :P";
 }
 
+// Check if array is correct
 correct_array = ["1","2","3","4","5","6","7","8","9"];
-
-function tjekk(arr){
+function check_array(arr){
   tjekk_arr = arr.sort();
   for (var i = 0; i < correct_array.length; i++) {
     if (String(correct_array[i]) !== String(tjekk_arr[i])){
-      return "wrong"
+      return false
     }
   }
-  return "correct"
+  return true
 }
 
-
-
-
+// Check if all digits are correct
 function grid_check() {
   // Check if all rows have no repeates
   for (var row = 1; row <= 9; row++) {
@@ -54,7 +54,7 @@ function grid_check() {
       var id_num = row + (9 * collumn)
       num_arr.push(document.getElementById(id_num).textContent)
     }
-    if (tjekk(num_arr) == "wrong") {
+    if (check_array(num_arr) == false) {
       wrong()
       return
     }
@@ -66,7 +66,7 @@ function grid_check() {
       id_num = row + (9 * collumn)
       num_arr.push(document.getElementById(id_num).textContent)
     }
-    if (tjekk(num_arr) == "wrong") {
+    if (check_array(num_arr) == false) {
       wrong()
       return
     }
@@ -84,7 +84,7 @@ function grid_check() {
           //console.log(document.getElementById(id_num).textContent)
         }
       }
-      if (tjekk(num_arr) == "wrong") {
+      if (check_array(num_arr) == false) {
         wrong()
         return
       }
@@ -92,7 +92,6 @@ function grid_check() {
   }
   right()
 }
-
 
 //Check if grid is full. 
 function full_grid() {
@@ -104,34 +103,6 @@ function full_grid() {
     }
   }
 }
-
-// Fetch Data from text file  
-function fetch_data() {
-  fetch('sudoku_data.txt')
-    .then(response => response.text())
-    .then(data => {
-      var dataArray = data.split(",");
-      fill_grid(dataArray[Math.floor(Math.random() * dataArray.length)]);
-    })
-}
-
-// setur data inn í krossskiptan
-function fill_grid(sudoku_array) {
-  for (var i = 0; i < document.querySelectorAll(".cell").length; i++) {
-    var cell = document.getElementById(i+1)
-    if (sudoku_array[i] == "0") {
-      cell.innerHTML = "";
-    } else {
-      cell.innerHTML = sudoku_array[i];
-      cell.classList.add("fast");
-    }
-  }
-};
-
-//fetch_data()
-fill_grid("079518243543729618821634957794352186358461729216897534485276391962183475137945862");
-full_grid()
-
 
 // Select tile with id
 function select(id){
@@ -148,7 +119,7 @@ function insert(str) {
   full_grid();
 }
 
-// Select tile that mouse clicks on
+// Select tile that mouse clicks on tile
 document.querySelectorAll(".su_cell").forEach(item => {
   item.addEventListener("click", event => {
     select(event.target.id)
@@ -156,26 +127,44 @@ document.querySelectorAll(".su_cell").forEach(item => {
 });
 
 // When key is pressed
-document.onkeydown = checkKey;
+document.onkeydown = function checkKey(event) {
+    var selected_element = document.querySelector(".selected");
+    var selected_id = parseInt(selected_element.id);
 
-function checkKey(event) {
-
-  var selected_element = document.querySelector(".selected");
-  var selected_id = parseInt(selected_element.id);
-
-  if (["1","2","3","4","5","6","7","8","9"].includes(event.key) == true && selected_element.className.split(" ").includes("fast") == false){
-    insert(event.key)
-  } else if (event.key == "Backspace" && selected_element.className.split(" ").includes("fast") == false){
-    insert("")
-  } else if (event.key == "ArrowUp" && selected_id > 9) {
-    select(selected_id - 9)
-  } else if (event.key == "ArrowDown" && selected_id < 73) {
-    select(selected_id + 9)
-  } else if (event.key == "ArrowLeft" && selected_id > 1 && (selected_id % 9) !== 1) {
-    select(selected_id - 1)
-  } else if (event.key == "ArrowRight" && selected_id < 81 && (selected_id % 9) !== 0) {
-    select(selected_id + 1)
-  }
+    if (["1","2","3","4","5","6","7","8","9"].includes(event.key) == true && selected_element.className.split(" ").includes("fast") == false){
+      insert(event.key)
+    } else if (event.key == "Backspace" && selected_element.className.split(" ").includes("fast") == false){
+      insert("")
+    } else if (event.key == "ArrowUp" && selected_id > 9) {
+      select(selected_id - 9)
+    } else if (event.key == "ArrowDown" && selected_id < 73) {
+      select(selected_id + 9)
+    } else if (event.key == "ArrowLeft" && selected_id > 1 && (selected_id % 9) !== 1) {
+      select(selected_id - 1)
+    } else if (event.key == "ArrowRight" && selected_id < 81 && (selected_id % 9) !== 0) {
+      select(selected_id + 1)
+    }
 };
 
-// background-color: rgb(230, 197, 0);
+
+// Create 81 square grid and select the first tile 
+
+const grid_width = 9
+const grid_size = grid_width*grid_width
+
+let list = document.getElementById("girdList")
+
+// Create grid
+for (var i = 1; i <= grid_size; i++) {
+  let li = document.createElement("li");
+  li.classList.add("cell")
+  li.setAttribute("id", i)
+  list.appendChild(li)
+}
+
+// Initial selected tile
+document.getElementById("1").classList.toggle("selected")
+
+fetch_data()
+//fill_grid("079518243543729618821634957794352186358461729216897534485276391962183475137945862");
+full_grid()
