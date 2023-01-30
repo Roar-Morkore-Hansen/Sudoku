@@ -1,4 +1,4 @@
-// Fetch Data from text file  
+// Fetch Data from text file and fill grid with a random template
 function fetch_data() {
   fetch('sudoku_data.txt')
     .then(response => response.text())
