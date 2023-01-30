@@ -3,8 +3,9 @@ function fetch_data() {
   fetch('sudoku_data.txt')
     .then(response => response.text())
     .then(data => {
-      var dataArray = data.split(",");
-      fill_grid(dataArray[Math.floor(Math.random() * dataArray.length)]);
+      var data_array = data.split(",")
+      const rnd_num = Math.floor(Math.random() * data_array.length)
+      fill_grid(data_array[rnd_num]);
     })
 }
 
