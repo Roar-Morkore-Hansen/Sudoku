@@ -10,9 +10,9 @@ for (var i = 1; i <= 81; i++) {
   li.setAttribute("id", i)
   list.appendChild(li)
 }
-
 // Initial selected tile
 document.getElementById("1").classList.toggle("selected")
+
 
 // Fetch Data from text file and fill grid with a random template
 function fetch_data() {
@@ -137,7 +137,7 @@ function insert(str) {
 }
 
 // Select tile that mouse clicks on tile
-document.querySelectorAll(".su_cell").forEach(item => {
+document.querySelectorAll(".cell").forEach(item => {
   item.addEventListener("click", event => {
     select(event.target.id)
   })
